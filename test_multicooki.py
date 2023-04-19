@@ -5,18 +5,19 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver import Firefox, FirefoxOptions
+# option2
+from selenium.webdriver import Firefox, FirefoxOptions #for option2
 
 
 
 @pytest.fixture(scope="session")
 def driver():
     # Set up the driver
-    binary = "/usr/bin/firefox"
-    options = FirefoxOptions()
-    options.binary_location = binary
-    driver = Firefox(options=options)
-    #driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
+    #binary = "/usr/bin/firefox" #for option2
+    #options = FirefoxOptions()#for option2
+    #options.binary_location = binary#for option2
+    #driver = Firefox(options=options)#for option2
+    driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
     yield driver
     # Tear down the driver
     driver.quit()
