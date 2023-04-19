@@ -1,16 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Apr 19 15:52:50 2023
-
-@author: cttc
-"""
-
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Apr 19 15:18:05 2023
-
-@author: cttc
-"""
 import pytest
 from selenium import webdriver
 from webdriver_manager.firefox import GeckoDriverManager
