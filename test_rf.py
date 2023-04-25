@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 from sklearn.datasets import make_classification
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, precision_score, recall_score, f1_score, cohen_kappa_score, mean_absolute_error, mean_squared_error, roc_auc_score
@@ -58,7 +58,7 @@ def generate_stochastic_data():
 
 def test_train_score(dataset):
     # Test that the model can fit the data
-    model = RandomForestRegressor(n_estimators=100, random_state=0)
+    model = RandomForestClassifier(n_estimators=100, random_state=0)
     X, y = dataset
     print(X.shape)
     model.fit(X, y)    
@@ -66,7 +66,7 @@ def test_train_score(dataset):
 
 def test_train_predict(dataset):
     # Test that the model can fit the data
-    model = RandomForestRegressor(n_estimators=100, random_state=0)
+    model = RandomForestClassifier(n_estimators=100, random_state=0)
     X, y = dataset
     print(X.shape)
     model.fit(X, y)    
@@ -77,7 +77,7 @@ def test_train_predict(dataset):
 def test_evaluation_accuracy(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = RandomForestRegressor(n_estimators=100, random_state=0)
+    model = RandomForestClassifier(n_estimators=100, random_state=0)
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
@@ -86,7 +86,7 @@ def test_evaluation_accuracy(dataset):
 def test_evaluation_precision(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = RandomForestRegressor(n_estimators=100, random_state=0)
+    model = RandomForestClassifier(n_estimators=100, random_state=0)
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     precision = precision_score(y_test, y_pred, average='weighted')
@@ -95,7 +95,7 @@ def test_evaluation_precision(dataset):
 def test_evaluation_recall(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = RandomForestRegressor(n_estimators=100, random_state=0)
+    model = RandomForestClassifier(n_estimators=100, random_state=0)
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     recall = recall_score(y_test, y_pred, average='weighted')
@@ -104,7 +104,7 @@ def test_evaluation_recall(dataset):
 def test_evaluation_f1(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = RandomForestRegressor(n_estimators=100, random_state=0)
+    model = RandomForestClassifier(n_estimators=100, random_state=0)
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     f1 = f1_score(y_test, y_pred, average='weighted')
@@ -113,7 +113,7 @@ def test_evaluation_f1(dataset):
 def test_evaluation_mse(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = RandomForestRegressor(n_estimators=100, random_state=0)
+    model = RandomForestClassifier(n_estimators=100, random_state=0)
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     mse = mean_squared_error(y_test, y_pred)
@@ -122,7 +122,7 @@ def test_evaluation_mse(dataset):
 def test_evaluation_rmse(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = RandomForestRegressor(n_estimators=100, random_state=0)
+    model = RandomForestClassifier(n_estimators=100, random_state=0)
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     mse = mean_squared_error(y_test, y_pred)
@@ -153,7 +153,7 @@ def test_evaluation_auc(dataset):
 def test_evaluation_mae(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = RandomForestRegressor(n_estimators=100, random_state=0)
+    model = RandomForestClassifier(n_estimators=100, random_state=0)
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     mae = mean_absolute_error(y_test, y_pred)
@@ -162,7 +162,7 @@ def test_evaluation_mae(dataset):
 def test_evaluation_kappa(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = RandomForestRegressor(n_estimators=100, random_state=0)
+    model = RandomForestClassifier(n_estimators=100, random_state=0)
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     kappa = cohen_kappa_score(y_test, y_pred)
