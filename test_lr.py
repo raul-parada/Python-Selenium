@@ -52,7 +52,7 @@ def generate_stochastic_data():
 
 def test_train_classification_model(dataset):
     # Test that the model can fit the data
-    model = LogisticRegression(random_state=42, multi_class='ovr')
+    model = LogisticRegression(random_state=42)
     X, y = dataset
     print(X.shape)
     model.fit(X, y)    
@@ -65,16 +65,16 @@ def test_train_classification_model(dataset):
 def test_evaluation(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = LogisticRegression(random_state=42, multi_class='ovr')
+    model = LogisticRegression(random_state=42)
     model.fit(X, y)
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
     assert accuracy >= 0.75, f"Accuracy is {accuracy}, expected 0.75 or higher"
-    precision = precision_score(y_test, y_pred, average='weighted')
+    precision = precision_score(y_test, y_pred, average='None')
     assert precision >= 0.6666666666666666, f"Precision is {precision}, expected 0.6667 or higher"
-    recall = recall_score(y_test, y_pred, average='weighted')
+    recall = recall_score(y_test, y_pred, average='None')
     assert recall == 1.0, f"Recall is {recall}, expected 1.0"
-    f1 = f1_score(y_test, y_pred, average='weighted')
+    f1 = f1_score(y_test, y_pred, average='None')
     assert f1 >= 0.8, f"F1 Score is {f1}, expected 0.8 or higher"
     mse = mean_squared_error(y_test, y_pred)
     assert round(mse, 2) <= 0.23, f"MSE is {mse}, expected 0.23 or lower"
