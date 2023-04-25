@@ -133,8 +133,11 @@ def test_evaluation_auc(dataset):
     model = LogisticRegression(random_state=42)
     model.fit(X, y)
     y_pred = model.predict(X_test)
-    pred_prob = model.predict_proba(X_test)
-    auc = roc_auc_score(y_test, pred_prob, multi_class='ovr')
+    threshold = 20
+    y_test_binary = (y_test > threshold).astype(int)
+    y_pred_binary = (y_pred > threshold).astype(int)
+    auc_score = roc_auc_score(y_test_binary, y_pred_binary)
+    #auc = roc_auc_score(y_test, pred_prob, multi_class='ovr')
     assert round(auc, 2) >= 0.92, f"AUC is {auc}, expected 0.92 or higher"
     
 def test_evaluation_mae(dataset):
