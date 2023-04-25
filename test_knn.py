@@ -132,13 +132,14 @@ def test_evaluation_rmse(dataset):
 def test_evaluation_auc(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    #y_train_binarized = label_binarize(y_train, classes=[1, 2, 3])
-    #y_test_binarized = label_binarize(y_test, classes=[1, 2, 3])
+    y_train_binarized = label_binarize(y_train, classes=[1, 2, 3])
+    y_test_binarized = label_binarize(y_test, classes=[1, 2, 3])
     model = KNeighborsClassifier(n_neighbors=5)
     model.fit(X, y)
     y_pred = model.predict(X_test)
     #pred_prob = model.predict_proba(X_test)
-    auc = roc_auc_score(y_test, y_pred, multi_class='ovr')
+    auc = roc_auc_score(y_test_binarized, y_pred.reshape(-1,1), multi_class='ovr')
+    #auc = roc_auc_score(y_test, y_pred, multi_class='ovr')
     assert round(auc, 2) >= 0.92, f"AUC is {auc}, expected 0.92 or higher"
     
 def test_evaluation_mae(dataset):
