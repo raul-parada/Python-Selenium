@@ -57,7 +57,7 @@ def test_train_classification_model(dataset):
     model.fit(X, y)    
     assert model.score(X, y) > 0.7
     X_test, y_test = generate_stochastic_data()
-    y_pred = model.predict(X_test)
+    y_pred = model.predict(X_test.reshape(1, -1))
     assert np.array_equal(y_pred, y_test), "y_pred is not equal to y_test"
     return model 
 
