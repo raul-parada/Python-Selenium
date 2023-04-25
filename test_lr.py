@@ -68,7 +68,7 @@ def test_evaluation(dataset):
     model = LogisticRegression(random_state=42, multi_class='ovr')
     model.fit(X, y)
     y_pred = model.predict(X_test)
-    accuracy = accuracy_score(y_test, y_pred, average='weighted')
+    accuracy = accuracy_score(y_test, y_pred)
     assert accuracy >= 0.75, f"Accuracy is {accuracy}, expected 0.75 or higher"
     precision = precision_score(y_test, y_pred, average='weighted')
     assert precision >= 0.6666666666666666, f"Precision is {precision}, expected 0.6667 or higher"
