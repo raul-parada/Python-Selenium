@@ -76,7 +76,7 @@ def test_evaluation_accuracy(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestRegressor(n_estimators=100, random_state=0)
-    model.fit(X, y)
+    model.fit(X_train, X_test)
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
     assert accuracy >= 0.75, f"Accuracy is {accuracy}, expected 0.75 or higher"
@@ -85,7 +85,7 @@ def test_evaluation_precision(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestRegressor(n_estimators=100, random_state=0)
-    model.fit(X, y)
+    model.fit(X_train, X_test)
     y_pred = model.predict(X_test)
     precision = precision_score(y_test, y_pred, average='weighted')
     assert precision >= 0.6666666666666666, f"Precision is {precision}, expected 0.6667 or higher"
@@ -94,7 +94,7 @@ def test_evaluation_recall(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestRegressor(n_estimators=100, random_state=0)
-    model.fit(X, y)
+    model.fit(X_train, X_test)
     y_pred = model.predict(X_test)
     recall = recall_score(y_test, y_pred, average='weighted')
     assert recall == 1.0, f"Recall is {recall}, expected 1.0"
@@ -103,7 +103,7 @@ def test_evaluation_f1(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestRegressor(n_estimators=100, random_state=0)
-    model.fit(X, y)
+    model.fit(X_train, X_test)
     y_pred = model.predict(X_test)
     f1 = f1_score(y_test, y_pred, average='weighted')
     assert f1 >= 0.8, f"F1 Score is {f1}, expected 0.8 or higher"
@@ -112,7 +112,7 @@ def test_evaluation_mse(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestRegressor(n_estimators=100, random_state=0)
-    model.fit(X, y)
+    model.fit(X_train, X_test)
     y_pred = model.predict(X_test)
     mse = mean_squared_error(y_test, y_pred)
     assert round(mse, 2) <= 0.23, f"MSE is {mse}, expected 0.23 or lower"
@@ -121,23 +121,31 @@ def test_evaluation_rmse(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestRegressor(n_estimators=100, random_state=0)
-    model.fit(X, y)
+    model.fit(X_train, X_test)
     y_pred = model.predict(X_test)
     mse = mean_squared_error(y_test, y_pred)
     rmse = mse ** 0.5
     assert round(rmse, 2) <= 0.48, f"RMSE is {rmse}, expected 0.48 or lower"
     
 def test_evaluation_auc(dataset):
-    X, y = dataset
+    X, y = dataset 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = RandomForestRegressor(n_estimators=100, random_state=0)
-    model.fit(X, y)
-    y_pred = model.predict(X_test)
-    threshold = 20
-    y_test_binary = (y_test > threshold).astype(int)
-    y_pred_binary = (y_pred > threshold).astype(int)
-    auc = roc_auc_score(y_test_binary, y_pred_binary)
-    #auc = roc_auc_score(y_test, pred_prob, multi_class='ovr')
+    # Encode the target variable
+    le = LabelEncoder()
+    y_train = le.fit_transform(y_train)
+    y_test = le.transform(y_test)
+    # Scale the feature dataset
+    sc = StandardScaler()
+    X_train = sc.fit_transform(X_train)
+    X_test = sc.transform(X_test)
+    # Create a RandomForestClassifier object
+    model = RandomForestClassifier(n_estimators=100, random_state=0)
+    # Fit the model on the training data
+    model.fit(X_train, y_train)
+    # Use the model to predict probabilities for the test set
+    y_pred_proba = model.predict_proba(X_test)
+    # Calculate the AUC score
+    auc = roc_auc_score(y_test, y_pred_proba, multi_class='ovo')
     assert round(auc, 2) >= 0.92, f"AUC is {auc}, expected 0.92 or higher"
     
 def test_evaluation_mae(dataset):
