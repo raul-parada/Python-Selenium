@@ -50,6 +50,7 @@ def generate_stochastic_data():
 def test_train_classification_model():
     # Test that the model can fit the data
     model = LogisticRegression(random_state=42)
+    X, y = dataset
     model.fit(X, y)    
     assert model.score(X, y) > 0.7
     X_test, y_test = generate_stochastic_data()
