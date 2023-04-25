@@ -70,20 +70,21 @@ def test_evaluation(dataset):
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
     assert accuracy >= 0.75, f"Accuracy is {accuracy}, expected 0.75 or higher"
-    precision = precision_score(y_test, y_pred, average='None')
+    precision = precision_score(y_test, y_pred, average=None)
     assert precision >= 0.6666666666666666, f"Precision is {precision}, expected 0.6667 or higher"
-    #recall = recall_score(y_test, y_pred)
-    #assert recall == 1.0, f"Recall is {recall}, expected 1.0"
-    #f1 = f1_score(y_test, y_pred, average='None')
-    #assert f1 >= 0.8, f"F1 Score is {f1}, expected 0.8 or higher"
-    #mse = mean_squared_error(y_test, y_pred)
-    #assert round(mse, 2) <= 0.23, f"MSE is {mse}, expected 0.23 or lower"
-    #mse = mean_squared_error(y_test, y_pred)
-    #rmse = mse ** 0.5
-    #assert round(rmse, 2) <= 0.48, f"RMSE is {rmse}, expected 0.48 or lower"
-    #auc = roc_auc_score(y_test, y_pred)
-    #assert round(auc, 2) >= 0.92, f"AUC is {auc}, expected 0.92 or higher"
-    #mae = mean_absolute_error(y_test, y_pred)
-    #assert round(mae, 2) <= 0.39, f"MAE is {mae}, expected 0.39 or lower"
-    #kappa = cohen_kappa_score(y_test, y_pred)
-    #assert round(kappa, 2) <= 0.67, f"Cohen's Kappa Score is {kappa}, expected 0.67 or lower"
+    recall = recall_score(y_test, y_pred, average=None)
+    assert recall == 1.0, f"Recall is {recall}, expected 1.0"
+    f1 = f1_score(y_test, y_pred, average=None)
+    assert f1 >= 0.8, f"F1 Score is {f1}, expected 0.8 or higher"
+    mse = mean_squared_error(y_test, y_pred)
+    assert round(mse, 2) <= 0.23, f"MSE is {mse}, expected 0.23 or lower"
+    mse = mean_squared_error(y_test, y_pred)
+    rmse = mse ** 0.5
+    assert round(rmse, 2) <= 0.48, f"RMSE is {rmse}, expected 0.48 or lower"
+    pred_prob = model.predict_proba(X_test)
+    auc = roc_auc_score(y_test, pred_prob, multi_class='ovr')
+    assert round(auc, 2) >= 0.92, f"AUC is {auc}, expected 0.92 or higher"
+    mae = mean_absolute_error(y_test, y_pred)
+    assert round(mae, 2) <= 0.39, f"MAE is {mae}, expected 0.39 or lower"
+    kappa = cohen_kappa_score(y_test, y_pred)
+    assert round(kappa, 2) <= 0.67, f"Cohen's Kappa Score is {kappa}, expected 0.67 or lower"
