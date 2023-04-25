@@ -19,10 +19,14 @@ def dataset():
     y = df.iloc[:, -1]
     return X, y
 
-def test_missing_data(dataset):
+def test_missing_data_X(dataset):
     # check for missing data in the dataset
     X, y = dataset
     assert not X.isnull().values.any(), "There are missing values in the dataset"
+    
+def test_missing_data_Y(dataset):
+    # check for missing data in the dataset
+    X, y = dataset
     assert not y.isnull().values.any(), "There are missing labels in the dataset"
 
 def test_imbalanced_labels(dataset):
@@ -50,19 +54,25 @@ def generate_stochastic_data():
     y_test = sample_row[-1] # y_test is the last column
     return X_test, y_test
 
-def test_train_classification_model(dataset):
+def test_train_score(dataset):
     # Test that the model can fit the data
     model = LogisticRegression(random_state=42)
     X, y = dataset
     print(X.shape)
     model.fit(X, y)    
     assert model.score(X, y) > 0.7
+
+def test_train_predict(dataset):
+    # Test that the model can fit the data
+    model = LogisticRegression(random_state=42)
+    X, y = dataset
+    print(X.shape)
+    model.fit(X, y)    
     X_test, y_test = generate_stochastic_data()
     y_pred = model.predict(X_test.reshape(1, -1))
     assert int(y_pred)==y_test, "y_pred is not equal to y_test"
-    
-
-def test_evaluation(dataset):
+   
+def test_evaluation_accuracy(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = LogisticRegression(random_state=42)
@@ -70,21 +80,77 @@ def test_evaluation(dataset):
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
     assert accuracy >= 0.75, f"Accuracy is {accuracy}, expected 0.75 or higher"
+        
+def test_evaluation_precision(dataset):
+    X, y = dataset
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    model = LogisticRegression(random_state=42)
+    model.fit(X, y)
+    y_pred = model.predict(X_test)
     precision = precision_score(y_test, y_pred, average='weighted')
     assert precision >= 0.6666666666666666, f"Precision is {precision}, expected 0.6667 or higher"
+
+def test_evaluation_recall(dataset):
+    X, y = dataset
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    model = LogisticRegression(random_state=42)
+    model.fit(X, y)
+    y_pred = model.predict(X_test)
     recall = recall_score(y_test, y_pred, average='weighted')
     assert recall == 1.0, f"Recall is {recall}, expected 1.0"
+    
+def test_evaluation_f1(dataset):
+    X, y = dataset
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    model = LogisticRegression(random_state=42)
+    model.fit(X, y)
+    y_pred = model.predict(X_test)
     f1 = f1_score(y_test, y_pred, average='weighted')
     assert f1 >= 0.8, f"F1 Score is {f1}, expected 0.8 or higher"
+    
+def test_evaluation_mse(dataset):
+    X, y = dataset
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    model = LogisticRegression(random_state=42)
+    model.fit(X, y)
+    y_pred = model.predict(X_test)
     mse = mean_squared_error(y_test, y_pred)
     assert round(mse, 2) <= 0.23, f"MSE is {mse}, expected 0.23 or lower"
+    
+def test_evaluation_rmse(dataset):
+    X, y = dataset
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    model = LogisticRegression(random_state=42)
+    model.fit(X, y)
+    y_pred = model.predict(X_test)
     mse = mean_squared_error(y_test, y_pred)
     rmse = mse ** 0.5
     assert round(rmse, 2) <= 0.48, f"RMSE is {rmse}, expected 0.48 or lower"
+    
+def test_evaluation_auc(dataset):
+    X, y = dataset
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    model = LogisticRegression(random_state=42)
+    model.fit(X, y)
+    y_pred = model.predict(X_test)
     pred_prob = model.predict_proba(X_test)
     auc = roc_auc_score(y_test, pred_prob, multi_class='ovr')
     assert round(auc, 2) >= 0.92, f"AUC is {auc}, expected 0.92 or higher"
+    
+def test_evaluation_mae(dataset):
+    X, y = dataset
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    model = LogisticRegression(random_state=42)
+    model.fit(X, y)
+    y_pred = model.predict(X_test)
     mae = mean_absolute_error(y_test, y_pred)
     assert round(mae, 2) <= 0.39, f"MAE is {mae}, expected 0.39 or lower"
+    
+def test_evaluation_kappa(dataset):
+    X, y = dataset
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    model = LogisticRegression(random_state=42)
+    model.fit(X, y)
+    y_pred = model.predict(X_test)
     kappa = cohen_kappa_score(y_test, y_pred)
     assert round(kappa, 2) <= 0.67, f"Cohen's Kappa Score is {kappa}, expected 0.67 or lower"
