@@ -66,6 +66,7 @@ def test_evaluation(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = LogisticRegression(random_state=42)
+    model.fit(X, y)
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
     assert accuracy >= 0.75, f"Accuracy is {accuracy}, expected 0.75 or higher"
