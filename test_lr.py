@@ -15,7 +15,7 @@ def dataset():
     # load the dataset
     df = pd.read_csv('5G_Sliced.csv')
     # separate the features (X) and the label (y)
-    X = df.iloc[:, :-1]
+    X = df.iloc[:, 1:-1]
     y = df.iloc[:, -1]
     return X, y
 
