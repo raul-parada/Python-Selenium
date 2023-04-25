@@ -2,6 +2,8 @@ import pytest
 import numpy as np
 from sklearn.datasets import make_classification
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, precision_score, recall_score, f1_score, cohen_kappa_score, mean_absolute_error, mean_squared_error, roc_auc_score
 import pandas as pd
 import random
@@ -76,7 +78,7 @@ def test_evaluation_accuracy(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestRegressor(n_estimators=100, random_state=0)
-    model.fit(X_train, X_test)
+    model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
     assert accuracy >= 0.75, f"Accuracy is {accuracy}, expected 0.75 or higher"
@@ -85,7 +87,7 @@ def test_evaluation_precision(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestRegressor(n_estimators=100, random_state=0)
-    model.fit(X_train, X_test)
+    model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     precision = precision_score(y_test, y_pred, average='weighted')
     assert precision >= 0.6666666666666666, f"Precision is {precision}, expected 0.6667 or higher"
@@ -94,7 +96,7 @@ def test_evaluation_recall(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestRegressor(n_estimators=100, random_state=0)
-    model.fit(X_train, X_test)
+    model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     recall = recall_score(y_test, y_pred, average='weighted')
     assert recall == 1.0, f"Recall is {recall}, expected 1.0"
@@ -103,7 +105,7 @@ def test_evaluation_f1(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestRegressor(n_estimators=100, random_state=0)
-    model.fit(X_train, X_test)
+    model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     f1 = f1_score(y_test, y_pred, average='weighted')
     assert f1 >= 0.8, f"F1 Score is {f1}, expected 0.8 or higher"
@@ -112,7 +114,7 @@ def test_evaluation_mse(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestRegressor(n_estimators=100, random_state=0)
-    model.fit(X_train, X_test)
+    model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     mse = mean_squared_error(y_test, y_pred)
     assert round(mse, 2) <= 0.23, f"MSE is {mse}, expected 0.23 or lower"
@@ -121,7 +123,7 @@ def test_evaluation_rmse(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestRegressor(n_estimators=100, random_state=0)
-    model.fit(X_train, X_test)
+    model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     mse = mean_squared_error(y_test, y_pred)
     rmse = mse ** 0.5
@@ -152,7 +154,7 @@ def test_evaluation_mae(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestRegressor(n_estimators=100, random_state=0)
-    model.fit(X, y)
+    model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     mae = mean_absolute_error(y_test, y_pred)
     assert round(mae, 2) <= 0.39, f"MAE is {mae}, expected 0.39 or lower"
@@ -161,7 +163,7 @@ def test_evaluation_kappa(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestRegressor(n_estimators=100, random_state=0)
-    model.fit(X, y)
+    model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     kappa = cohen_kappa_score(y_test, y_pred)
     assert round(kappa, 2) <= 0.67, f"Cohen's Kappa Score is {kappa}, expected 0.67 or lower"
