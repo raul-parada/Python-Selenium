@@ -132,9 +132,9 @@ def test_evaluation_auc(dataset):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = LinearSVC(random_state=42)
     model.fit(X, y)
-    #y_pred = model.predict(X_test)
-    pred_prob = model.predict_proba(X_test)
-    auc = roc_auc_score(y_test, pred_prob, multi_class='ovr')
+    y_pred = model.predict(X_test)
+    #pred_prob = model.predict_proba(X_test)
+    auc = roc_auc_score(y_test, y_pred)
     assert round(auc, 2) >= 0.92, f"AUC is {auc}, expected 0.92 or higher"
     
 def test_evaluation_mae(dataset):
