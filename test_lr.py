@@ -47,7 +47,7 @@ def generate_stochastic_data():
     y_test = sample_row[-1] # y_test is the last column
     return X_test, y_test
 
-def train_classification_model():
+def test_train_classification_model():
     # Test that the model can fit the data
     model = LogisticRegression(random_state=42)
     model.fit(X, y)    
@@ -57,7 +57,7 @@ def train_classification_model():
     assert np.array_equal(y_pred, y_test), "y_pred is not equal to y_test"
     return model 
 
-def evaluation():
+def test_evaluation():
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = train_classification_model()
