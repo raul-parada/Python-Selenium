@@ -6,6 +6,8 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 import pandas as pd
 import random
 import numpy as np
+from sklearn.model_selection import train_test_split
+
 
 # load the data into a DataFrame
 @pytest.fixture(scope="module")
