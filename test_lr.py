@@ -70,9 +70,9 @@ def test_evaluation(dataset):
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
     assert accuracy >= 0.75, f"Accuracy is {accuracy}, expected 0.75 or higher"
-    precision = precision_score(y_test, y_pred, average='None')
+    precision = precision_score(y_test, y_pred)
     assert precision >= 0.6666666666666666, f"Precision is {precision}, expected 0.6667 or higher"
-    recall = recall_score(y_test, y_pred, average='None')
+    recall = recall_score(y_test, y_pred)
     assert recall == 1.0, f"Recall is {recall}, expected 1.0"
     f1 = f1_score(y_test, y_pred, average='None')
     assert f1 >= 0.8, f"F1 Score is {f1}, expected 0.8 or higher"
