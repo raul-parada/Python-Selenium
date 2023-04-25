@@ -134,7 +134,7 @@ def test_evaluation_auc(dataset):
     model.fit(X, y)
     y_pred = model.predict(X_test)
     #pred_prob = model.predict_proba(X_test)
-    auc = roc_auc_score(y_test, y_pred)
+    auc = roc_auc_score(y_test, y_pred, multi_class='ovr')
     assert round(auc, 2) >= 0.92, f"AUC is {auc}, expected 0.92 or higher"
     
 def test_evaluation_mae(dataset):
