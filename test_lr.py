@@ -35,16 +35,17 @@ def test_imbalanced_labels(dataset):
     assert minority_class_count >= 0.05 * majority_class_count, "The dataset is too imbalanced"
 
 def generate_stochastic_data():
-    column1 = random.choices(range(1, 23), weights=[0.047872]*20 + [0.021277]*2, k=1)[0]
-    column2 = random.choices([1, 2], weights=[0.531915, 0.468085], k=1)[0]
-    column3 = random.choices(range(1, 8), weights=[0.142857]*7, k=1)[0]
-    column4 = random.choices(range(24), weights=[0.041667]*24, k=1)[0]
-    column5 = random.choices([1, 2], weights=[0.558511, 0.441489], k=1)[0]
-    column6 = random.choices([1, 2, 3], weights=[0.281915, 0.271277, 0.446809], k=1)[0]
-    column7 = random.choices(range(1, 8), weights=[0.234043, 0.234043, 0.212766, 0.170213, 0.053191, 0.053191, 0.053191], k=1)[0]
-    column8 = random.choices([1, 2, 3], weights=[0.531915, 0.234043, 0.234043], k=1)[0]
+    column1 = random.choices(range(1, 9), weights=[0.425532, 0.058511, 0.058511, 0.117021, 0.106383, 0.058511, 0.058511, 0.117021], k=1)[0]
+    column2 = random.choices(range(1, 23), weights=[0.047872]*20 + [0.021277]*2, k=1)[0]
+    column3 = random.choices([1, 2], weights=[0.531915, 0.468085], k=1)[0]
+    column4 = random.choices(range(1, 8), weights=[0.142857]*7, k=1)[0]
+    column5 = random.choices(range(24), weights=[0.041667]*24, k=1)[0]
+    column6 = random.choices([1, 2], weights=[0.558511, 0.441489], k=1)[0]
+    column7 = random.choices([1, 2, 3], weights=[0.281915, 0.271277, 0.446809], k=1)[0]
+    column8 = random.choices(range(1, 8), weights=[0.234043, 0.234043, 0.212766, 0.170213, 0.053191, 0.053191, 0.053191], k=1)[0]
+    column9 = random.choices([1, 2, 3], weights=[0.531915, 0.234043, 0.234043], k=1)[0]
 
-    sample_row = [column1, column2, column3, column4, column5, column6, column7, column8]
+    sample_row = [column1, column2, column3, column4, column5, column6, column7, column8, column9]
     X_test = np.array(sample_row[:-1]) # X_test is all columns except the last
     y_test = sample_row[-1] # y_test is the last column
     return X_test, y_test
@@ -57,7 +58,7 @@ def test_train_classification_model(dataset):
     assert model.score(X, y) > 0.7
     X_test, y_test = generate_stochastic_data()
     y_pred = model.predict(X_test.reshape(1, -1))
-    assert np.array_equal(y_pred.reshape(-1, 1), y_test), "y_pred is not equal to y_test"
+    assert np.array_equal(y_pred, y_test), "y_pred is not equal to y_test"
     return model 
 
 def test_evaluation(dataset):
