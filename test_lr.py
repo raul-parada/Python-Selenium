@@ -56,14 +56,14 @@ def test_train_classification_model(dataset):
     model.fit(X, y)    
     assert model.score(X, y) > 0.7
     X_test, y_test = generate_stochastic_data()
-    y_pred = model.predict(X_test)
-    assert np.array_equal(y_pred, y_test), "y_pred is not equal to y_test"
+    y_pred = model.predict(X_test.reshape(1, -1))
+    assert np.array_equal(y_pred.reshape(-1, 1), y_test), "y_pred is not equal to y_test"
     return model 
 
 def test_evaluation(dataset):
     X, y = dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = train_classification_model()
+    model = LogisticRegression(random_state=42)
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
     assert accuracy >= 0.75, f"Accuracy is {accuracy}, expected 0.75 or higher"
