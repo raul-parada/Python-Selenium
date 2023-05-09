@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="14" time="12.226" timestamp="2023-05-10T00:11:03.870903" hostname="P-212-122001"><testcase classname="test_lr" name="test_missing_data_X" time="0.042" /><testcase classname="test_lr" name="test_missing_data_Y" time="0.001" /><testcase classname="test_lr" name="test_imbalanced_labels" time="0.001" /><testcase classname="test_lr" name="test_train_score" time="0.879" /><testcase classname="test_lr" name="test_train_predict" time="0.729"><failure message="AssertionError: y_pred is not equal to y_test&#10;assert 1 == 3&#10; +  where 1 = int(array([1], dtype=int64))">dataset = (       Use CaseType   ...  Packet Delay Budget (Latency)
+0                  1  ...                              5
+1  ...      ..
+63163    3
+63164    3
+63165    3
+63166    3
+63167    3
+Name: Slice Type (Output), Length: 63168, dtype: int64)
+
+    def test_train_predict(dataset):
+        # Test that the model can fit the data
+        model = LogisticRegression(random_state=42)
+        X, y = dataset
+        print(X.shape)
+        model.fit(X, y)
+        X_test, y_test = generate_stochastic_data()
+        y_pred = model.predict(X_test.reshape(1, -1))
+&gt;       assert int(y_pred)==y_test, "y_pred is not equal to y_test"
+E       AssertionError: y_pred is not equal to y_test
+E       assert 1 == 3
+E        +  where 1 = int(array([1], dtype=int64))
+
+test_lr.py:73: AssertionError</failure></testcase><testcase classname="test_lr" name="test_evaluation_accuracy" time="0.862" /><testcase classname="test_lr" name="test_evaluation_precision" time="0.775" /><testcase classname="test_lr" name="test_evaluation_recall" time="0.807" /><testcase classname="test_lr" name="test_evaluation_f1" time="0.853" /><testcase classname="test_lr" name="test_evaluation_mse" time="0.754" /><testcase classname="test_lr" name="test_evaluation_rmse" time="0.820" /><testcase classname="test_lr" name="test_evaluation_auc" time="0.854" /><testcase classname="test_lr" name="test_evaluation_mae" time="0.822" /><testcase classname="test_lr" name="test_evaluation_kappa" time="0.775"><failure message="AssertionError: Cohen's Kappa Score is 1.0, expected 0.67 or lower&#10;assert 1.0 &lt;= 0.67&#10; +  where 1.0 = round(1.0, 2)">dataset = (       Use CaseType   ...  Packet Delay Budget (Latency)
+0                  1  ...                              5
+1  ...      ..
+63163    3
+63164    3
+63165    3
+63166    3
+63167    3
+Name: Slice Type (Output), Length: 63168, dtype: int64)
+
+    def test_evaluation_kappa(dataset):
+        X, y = dataset
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        model = LogisticRegression(random_state=42)
+        model.fit(X, y)
+        y_pred = model.predict(X_test)
+        kappa = cohen_kappa_score(y_test, y_pred)
+&gt;       assert round(kappa, 2) &lt;= 0.67, f"Cohen's Kappa Score is {kappa}, expected 0.67 or lower"
+E       AssertionError: Cohen's Kappa Score is 1.0, expected 0.67 or lower
+E       assert 1.0 &lt;= 0.67
+E        +  where 1.0 = round(1.0, 2)
+
+test_lr.py:156: AssertionError</failure></testcase></testsuite></testsuites>

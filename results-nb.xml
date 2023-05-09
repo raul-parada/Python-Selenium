@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="14" time="2.561" timestamp="2023-05-10T00:12:01.761778" hostname="P-212-122001"><testcase classname="test_nb" name="test_missing_data_X" time="0.040" /><testcase classname="test_nb" name="test_missing_data_Y" time="0.001" /><testcase classname="test_nb" name="test_imbalanced_labels" time="0.002" /><testcase classname="test_nb" name="test_train_score" time="0.036" /><testcase classname="test_nb" name="test_train_predict" time="0.014"><failure message="AssertionError: y_pred is not equal to y_test&#10;assert 2 == 1&#10; +  where 2 = int(array([2], dtype=int64))">dataset = (       Use CaseType   ...  Packet Delay Budget (Latency)
+0                  1  ...                              5
+1  ...      ..
+63163    3
+63164    3
+63165    3
+63166    3
+63167    3
+Name: Slice Type (Output), Length: 63168, dtype: int64)
+
+    def test_train_predict(dataset):
+        # Test that the model can fit the data
+        model = GaussianNB()
+        X, y = dataset
+        print(X.shape)
+        model.fit(X, y)
+        X_test, y_test = generate_stochastic_data()
+        y_pred = model.predict(X_test.reshape(1, -1))
+&gt;       assert int(y_pred)==y_test, "y_pred is not equal to y_test"
+E       AssertionError: y_pred is not equal to y_test
+E       assert 2 == 1
+E        +  where 2 = int(array([2], dtype=int64))
+
+test_nb.py:75: AssertionError</failure></testcase><testcase classname="test_nb" name="test_evaluation_accuracy" time="0.027" /><testcase classname="test_nb" name="test_evaluation_precision" time="0.026" /><testcase classname="test_nb" name="test_evaluation_recall" time="0.029" /><testcase classname="test_nb" name="test_evaluation_f1" time="0.032" /><testcase classname="test_nb" name="test_evaluation_mse" time="0.023" /><testcase classname="test_nb" name="test_evaluation_rmse" time="0.023" /><testcase classname="test_nb" name="test_evaluation_auc" time="0.030"><failure message="AssertionError: AUC is 0.0, expected 0.92 or higher&#10;assert 0.0 &gt;= 0.92&#10; +  where 0.0 = round(0.0, 2)">dataset = (       Use CaseType   ...  Packet Delay Budget (Latency)
+0                  1  ...                              5
+1  ...      ..
+63163    3
+63164    3
+63165    3
+63166    3
+63167    3
+Name: Slice Type (Output), Length: 63168, dtype: int64)
+
+    def test_evaluation_auc(dataset):
+        X, y = dataset
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        y_train_binarized = label_binarize(y_train, classes=[1, 2, 3])
+        y_test_binarized = label_binarize(y_test, classes=[1, 2, 3])
+        model = GaussianNB()
+        model.fit(X, y)
+        y_pred = model.predict(X_test)
+        #pred_prob = model.predict_proba(X_test)
+        auc = roc_auc_score(y_test_binarized, y_pred.reshape(-1,1), multi_class='ovr')
+        #auc = roc_auc_score(y_test, y_pred, multi_class='ovr')
+&gt;       assert round(auc, 2) &gt;= 0.92, f"AUC is {auc}, expected 0.92 or higher"
+E       AssertionError: AUC is 0.0, expected 0.92 or higher
+E       assert 0.0 &gt;= 0.92
+E        +  where 0.0 = round(0.0, 2)
+
+test_nb.py:143: AssertionError</failure></testcase><testcase classname="test_nb" name="test_evaluation_mae" time="0.029" /><testcase classname="test_nb" name="test_evaluation_kappa" time="0.034"><failure message="AssertionError: Cohen's Kappa Score is 1.0, expected 0.67 or lower&#10;assert 1.0 &lt;= 0.67&#10; +  where 1.0 = round(1.0, 2)">dataset = (       Use CaseType   ...  Packet Delay Budget (Latency)
+0                  1  ...                              5
+1  ...      ..
+63163    3
+63164    3
+63165    3
+63166    3
+63167    3
+Name: Slice Type (Output), Length: 63168, dtype: int64)
+
+    def test_evaluation_kappa(dataset):
+        X, y = dataset
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        model = GaussianNB()
+        model.fit(X, y)
+        y_pred = model.predict(X_test)
+        kappa = cohen_kappa_score(y_test, y_pred)
+&gt;       assert round(kappa, 2) &lt;= 0.67, f"Cohen's Kappa Score is {kappa}, expected 0.67 or lower"
+E       AssertionError: Cohen's Kappa Score is 1.0, expected 0.67 or lower
+E       assert 1.0 &lt;= 0.67
+E        +  where 1.0 = round(1.0, 2)
+
+test_nb.py:161: AssertionError</failure></testcase></testsuite></testsuites>
